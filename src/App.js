@@ -29,12 +29,19 @@ import { useState } from 'react';
 
 function ToDoApp() {
   const [task, setTask] = useState([]); // using array
+  // set input to task name
+  // name = user input in form
+  function addTask(name) {
+    setTask(prev => { return [...prev, { name: name, done: false }]; })
+  }
   return (
     <main>
       <div>
-        <TaskForm />
+        <TaskForm onAdd={addTask} />
         <Task />
-        {task.map(task => { <Task {...Task} /> })}
+        {task.map(task =>
+          <Task />
+        )}
       </div>
     </main>
   );
