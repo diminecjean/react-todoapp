@@ -1,31 +1,9 @@
-import logo from './logo.svg';
 import Task from './Task';
 import TaskForm from './TaskForm';
 import './App.css';
 import { useEffect, useState } from 'react';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
-// export default App;
 
 function ToDoApp() {
   const [tasks, setTasks] = useState([]); // using array
@@ -47,6 +25,12 @@ function ToDoApp() {
     setTasks(prev => { return [...prev, { name: name, done: false }]; });
   }
 
+  function removeTask(indexToRemove) {
+    setTasks(prev => {
+      return prev.filter((taskObject, index) => index !== indexToRemove);
+    });
+  }
+
   // function to check a task as done
   function updateTaskDone(taskIndex, newDone) {
     setTasks(prev => {
@@ -56,13 +40,24 @@ function ToDoApp() {
     });
   }
 
+  const numberComplete = tasks.filter(t => t.done).length;
+  const numberTotal = tasks.length;
+
   return (
     <main>
       <div>
+        <h1>📝 Task List </h1>
+
+        <h2>
+          <progress value={numberComplete / numberTotal} />
+        </h2>
         <TaskForm onAdd={addTask} />
         {tasks.map((task, index) =>
-          <Task {...task} onToggle={done => updateTaskDone(index, done)} />
+          <Task {...task}
+            onToggle={done => updateTaskDone(index, done)}
+            onTrash={() => removeTask(index)} />
         )}
+
       </div>
     </main>
   );
