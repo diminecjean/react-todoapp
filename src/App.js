@@ -28,20 +28,30 @@ import { useEffect, useState } from 'react';
 // export default App;
 
 function ToDoApp() {
-  const [task, setTask] = useState([]); // using array
+  const [tasks, setTasks] = useState([]); // using array
+
   useEffect(() => {
-    localStorage.setItem('task', JSON.stringify(task))
-  }, [task]);
+    if (tasks.length === 0)
+      return;
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks]);
+
+  useEffect(() => {
+    const tasks = JSON.parse(localStorage.getItem('tasks'))
+    setTasks(tasks);
+  }, [])
+
+
   // set input to task name
   // name = user input in form
   function addTask(name) {
-    setTask(prev => { return [...prev, { name: name, done: false }]; });
+    setTasks(prev => { return [...prev, { name: name, done: false }]; });
   }
   return (
     <main>
       <div>
         <TaskForm onAdd={addTask} />
-        {task.map((task, index) =>
+        {tasks.map((task, index) =>
           <Task {...task} />
         )}
       </div>
