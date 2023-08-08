@@ -42,17 +42,26 @@ function ToDoApp() {
   }, [])
 
 
-  // set input to task name
-  // name = user input in form
+  // function to add a task
   function addTask(name) {
     setTasks(prev => { return [...prev, { name: name, done: false }]; });
   }
+
+  // function to check a task as done
+  function updateTaskDone(taskIndex, newDone) {
+    setTasks(prev => {
+      const newTasks = [...prev]; // create new array of tasks
+      newTasks[taskIndex].done = newDone; // modifying the done property of newTasks[taskIndex]
+      return newTasks;
+    });
+  }
+
   return (
     <main>
       <div>
         <TaskForm onAdd={addTask} />
         {tasks.map((task, index) =>
-          <Task {...task} />
+          <Task {...task} onToggle={done => updateTaskDone(index, done)} />
         )}
       </div>
     </main>
