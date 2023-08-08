@@ -5,10 +5,6 @@ main {
   align-items: center;
 }
 
-span {
-  color: #000;
-  font-size: small;
-}
 
 form {
   border: 3px solid #30313D;
@@ -33,13 +29,36 @@ div .task {
   border-radius: 10px;
   border: 20px;
   border-color: #000000;
-  padding: 5px 9px;
+  padding: 8px;
   display: flex;
   gap: 4px;
+  transition: opacity .15s linear;
+}
+
+div.task.done {
+  opacity: 0.5;
+  background-color: #acb3ff;
+  text-decoration: line-through;
+}
+
+div.task span:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  position: absolute;
+  top: 10px;
+  transition: width .1s linear;
+}
+
+div.task.done span:before {
+  width: 100%;
 }
 
 div .task svg {
-  height: 16px;
+  height: 20px;
+  fill: #000;
+  padding-top: 1.5px;
 }
 
 /* Default */
