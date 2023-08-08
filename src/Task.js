@@ -1,11 +1,12 @@
 import Checkbox from "./Checkbox";
 import { useState } from 'react';
 
-export default function Task() {
+export default function Task({ name, done }) {
+    // const [editMode, setEditMode] = useState(false);
     return (
         <div className="task">
-            <Checkbox />
-            Placeholder
+            <Checkbox defaultChecked={!done} />
+            <span>{name}</span>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import Task from './Task';
 import TaskForm from './TaskForm';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // function App() {
 //   return (
@@ -29,18 +29,20 @@ import { useState } from 'react';
 
 function ToDoApp() {
   const [task, setTask] = useState([]); // using array
+  useEffect(() => {
+    localStorage.setItem('task', JSON.stringify(task))
+  }, [task]);
   // set input to task name
   // name = user input in form
   function addTask(name) {
-    setTask(prev => { return [...prev, { name: name, done: false }]; })
+    setTask(prev => { return [...prev, { name: name, done: false }]; });
   }
   return (
     <main>
       <div>
         <TaskForm onAdd={addTask} />
-        <Task />
-        {task.map(task =>
-          <Task />
+        {task.map((task, index) =>
+          <Task {...task} />
         )}
       </div>
     </main>
