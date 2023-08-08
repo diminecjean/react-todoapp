@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 function ToDoApp() {
   const [tasks, setTasks] = useState([]); // using array
 
+  const numberComplete = tasks.filter(t => t.done).length;
+  const numberTotal = tasks.length;
+
   useEffect(() => {
     if (tasks.length === 0)
       return;
@@ -25,6 +28,7 @@ function ToDoApp() {
     setTasks(prev => { return [...prev, { name: name, done: false }]; });
   }
 
+  // function to remove a task from the array
   function removeTask(indexToRemove) {
     setTasks(prev => {
       return prev.filter((taskObject, index) => index !== indexToRemove);
@@ -40,13 +44,19 @@ function ToDoApp() {
     });
   }
 
-  const numberComplete = tasks.filter(t => t.done).length;
-  const numberTotal = tasks.length;
+  // function to edit task name
+  function renameTask(taskIndex, newName) {
+    setTasks(prev => {
+      const newTasks = [...prev];
+      newTasks[taskIndex].name = newName;
+      return newTasks;
+    })
+  }
 
   return (
     <main>
       <div>
-        <h1>📝 Task List </h1>
+        <h1>Task List </h1>
 
         <h2>
           <progress value={numberComplete / numberTotal} />
@@ -55,7 +65,9 @@ function ToDoApp() {
         {tasks.map((task, index) =>
           <Task {...task}
             onToggle={done => updateTaskDone(index, done)}
-            onTrash={() => removeTask(index)} />
+            onTrash={() => removeTask(index)}
+            onRename={newName => renameTask(index, newName)}
+          />
         )}
 
       </div>

@@ -8,9 +8,9 @@ export default function TaskForm({ onAdd }) {
         setTaskName(""); // clear input space
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text"
-                placeholder="Add a task"
+        <form className="taskform" onSubmit={handleSubmit}>
+            <input className="taskform" type="text"
+                placeholder="Add a task 📝 "
                 value={taskName}
                 onChange={ev => setTaskName(ev.target.value)} />
             <button>+</button>
