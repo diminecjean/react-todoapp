@@ -1,3 +1,4 @@
+import React from 'react';
 import Task from './Task';
 import TaskForm from './TaskForm';
 import './App.css';
@@ -8,8 +9,7 @@ import { useEffect, useState } from 'react';
 function ToDoApp() {
   const [tasks, setTasks] = useState([]);
 
-  const numberComplete = tasks.filter(t => t.done).length;
-  const numberTotal = tasks.length;
+
 
   useEffect(() => {
     if (tasks.length === 0)
@@ -19,13 +19,15 @@ function ToDoApp() {
 
   useEffect(() => {
     const tasks = JSON.parse(localStorage.getItem('tasks'))
-    setTasks(tasks);
+    setTasks(tasks || []);
   }, [])
 
 
   // function to add a task
-  function addTask(name) {
-    setTasks(prev => { return [...prev, { name: name, done: false }]; });
+  function addTask(name, color) {
+    setTasks(prev => {
+      return [...prev, { name: name, done: false, color: color }];
+    });
   }
 
   // function to remove a task from the array
@@ -44,6 +46,7 @@ function ToDoApp() {
     });
   }
 
+
   // function to edit task name
   function renameTask(taskIndex, newName) {
     setTasks(prev => {
@@ -53,15 +56,15 @@ function ToDoApp() {
     })
   }
 
-
-  // --------------- Color Coding ------------------
-
+  const numberComplete = tasks.filter(t => t.done).length;
+  const numberTotal = tasks.length;
 
   return (
     <main>
       <div>
         <h1>Task List </h1>
         <h2>
+          <p>{numberComplete}/{numberTotal} ☑️</p>
           <progress value={numberComplete / numberTotal} />
         </h2>
         <TaskForm onAdd={addTask} />
@@ -74,7 +77,7 @@ function ToDoApp() {
         )}
 
       </div>
-    </main>
+    </main >
   );
 }
 

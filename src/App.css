@@ -11,7 +11,8 @@ form {
   flex-grow: 1;
 }
 
-form.taskform {
+form.taskform,
+form.taskform.none {
   border: 3px solid #30313D;
   border-radius: 10px;
   padding: 5px;
@@ -38,7 +39,7 @@ form.taskform input[type="text"] {
   outline: none;
   border: none;
   display: block;
-  width: 80%;
+  width: 75%;
 }
 
 div.task.form input {
@@ -56,9 +57,9 @@ form button.add {
   cursor: pointer;
 }
 
-
 div.task {
   background-color: #e5e5e5;
+  border: 2px solid #585858;
   border-radius: 15px;
   padding: 5px 9px;
   margin-top: 8px;
@@ -66,6 +67,18 @@ div.task {
   align-items: center;
   transition: opacity .3s linear;
   font-size: small;
+}
+
+div.task.red {
+  background-color: #ffe0e0;
+}
+
+div.task.yellow {
+  background-color: #faf2d0;
+}
+
+div.task.green {
+  background-color: #d1f4d4;
 }
 
 div.task svg {
@@ -77,12 +90,15 @@ div.task svg {
   align-items: center;
 }
 
-div.task.done {
-  opacity: 0.5;
-}
-
 div.task span {
   position: relative;
+}
+
+div.task.done,
+div.task.done.red,
+div.task.done.yellow,
+div.task.done.green {
+  opacity: 0.5;
 }
 
 div.task span:before {
@@ -104,13 +120,13 @@ div.task-name {
   flex-grow: 1;
 }
 
-h1 {
-  text-align: center;
-  /* text-decoration: underline; */
-}
-
+h1,
 h2 {
   text-align: center;
+}
+
+p {
+  font-size: medium;
 }
 
 button.trash,
@@ -144,6 +160,15 @@ button.trash svg,
 .dropdown-item {
   color: none;
   text-decoration: none;
+}
+
+.dropdown-item.reset svg {
+  padding: 3px;
+  align-items: center;
+  fill: #ffffff;
+  height: 16px;
+  display: flex;
+  cursor: pointer;
 }
 
 /* Default */

@@ -1,10 +1,12 @@
 import Checkbox from "./Checkbox";
 import { useState } from "react";
 
-export default function Task({ name, done, onToggle, onTrash, onRename }) {
+export default function Task({ name, done, color, onToggle, onTrash, onRename }) {
     const [editMode, setEditMode] = useState(false);
     return (
-        <div className={'task ' + (done ? 'done' : '')}>
+        <div className={'task ' + (done ? 'done ' : '') + (color === "red" ? "red" :
+            color === "yellow" ? "yellow" :
+                color === "green" ? "green" : "")}>
             <Checkbox checked={done} onClick={() => onToggle(!done)} />
             {!editMode && (
                 <div className="task-name" onClick={() => setEditMode(prev => !prev)}>
