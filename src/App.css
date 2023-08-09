@@ -1,22 +1,22 @@
-/* Edits */
 main {
   max-width: 350px;
   margin: 20px auto;
   align-items: center;
 }
 
+/* --------------- Form/TaskForm --------------- */
 form {
   padding: 5px;
   display: flex;
   flex-grow: 1;
 }
 
-form.taskform,
-form.taskform.none {
+form.taskform {
   border: 3px solid #30313D;
   border-radius: 10px;
   padding: 5px;
   display: flex;
+  background: #fff;
   gap: 8px;
 }
 
@@ -33,7 +33,7 @@ form.taskform.green {
 }
 
 form.taskform input[type="text"] {
-  background: none;
+  background: #fff;
   color: rgb(67, 67, 67)000;
   padding: 0 8px;
   outline: none;
@@ -56,6 +56,8 @@ form button.add {
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* --------------- Task --------------- */
 
 div.task {
   background-color: #e5e5e5;
@@ -120,14 +122,6 @@ div.task-name {
   flex-grow: 1;
 }
 
-h1,
-h2 {
-  text-align: center;
-}
-
-p {
-  font-size: medium;
-}
 
 button.trash,
 .dropdown-toggle {
@@ -148,13 +142,12 @@ button.trash svg,
 }
 
 .dropdown-menu {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(39, 39, 39);
   padding: 4px 8px;
   border-radius: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  opacity: 80%;
 }
 
 .dropdown-item {
@@ -171,7 +164,22 @@ button.trash svg,
   cursor: pointer;
 }
 
-/* Default */
+/* ------------ Main ------------- */
+
+h1 {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+
+p {
+  font-size: medium;
+}
+
+
+/* ------------ Default ------------- */
 .App {
   text-align: center;
 }
