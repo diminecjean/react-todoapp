@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 
 function ToDoApp() {
-  const [tasks, setTasks] = useState([]); // using array
+  const [tasks, setTasks] = useState([]);
 
   const numberComplete = tasks.filter(t => t.done).length;
   const numberTotal = tasks.length;
@@ -53,11 +53,14 @@ function ToDoApp() {
     })
   }
 
+
+  // --------------- Color Coding ------------------
+
+
   return (
     <main>
       <div>
         <h1>Task List </h1>
-
         <h2>
           <progress value={numberComplete / numberTotal} />
         </h2>
