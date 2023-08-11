@@ -73,6 +73,7 @@ function ToDoApp() {
         axios.post('http://localhost:8000/apis/v1/', task)
           .then(response => {
             console.log(response);
+            console.log("Task Added");
             setCounter(counter + 1);
           })
           .catch(error => {
@@ -117,7 +118,7 @@ function ToDoApp() {
           done: done,
         })
           .then(response => {
-            console.log(`Update done status of task ${taskId}`);
+            console.log(`Toggle done (task ${taskId})`);
             setCounter(counter + 1);
           })
           .catch(error => {
@@ -130,12 +131,28 @@ function ToDoApp() {
   }
 
   // function to edit task name
-  function renameTask(taskIndex, newName) {
-    setTasks(prev => {
-      const newTasks = [...prev];
-      newTasks[taskIndex].name = newName;
-      return newTasks;
-    })
+  function renameTask(Task, newName) {
+    // setTasks(prev => {
+    //   const newTasks = [...prev];
+    //   newTasks[taskIndex].name = newName;
+    //   return newTasks;
+    // })
+
+    const updateRenameTaskFromAPI = async (taskId, name) => {
+      await
+        axios.patch(`http://localhost:8000/apis/v1/${taskId}/`, {
+          name: name,
+        })
+          .then(response => {
+            console.log(`Rename task ${taskId}`);
+            setCounter(counter + 1);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    }
+
+    updateRenameTaskFromAPI(Task.id, newName);
   }
 
   const numberComplete = tasks.filter(t => t.done).length;
@@ -151,11 +168,11 @@ function ToDoApp() {
         </h2>
         <TaskForm onAdd={addTask} />
 
-        {tasks.map((task, index, id) =>
-          <Task {...task} key={id}
+        {tasks.map((task) =>
+          <Task {...task}
             onToggle={done => updateTaskDone(task, done)}
             onTrash={() => removeTask(task)}
-            onRename={newName => renameTask(index, newName)}
+            onRename={newName => renameTask(task, newName)}
           />
         )}
 
