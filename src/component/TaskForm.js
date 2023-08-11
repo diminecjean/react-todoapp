@@ -2,23 +2,23 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from 'react';
 
 export default function TaskForm({ onAdd }) {
-
-    const [color, setColor] = useState('');
     const [taskName, setTaskName] = useState('');
+    const [color, setColor] = useState('none');
+
     // const [show, setShow] = useState(false)
 
     function handleSubmit(ev) {
         ev.preventDefault();
         onAdd(taskName, color);
         setTaskName(""); // clear input space
-        setColor("");
+        setColor("none");
     }
 
     return (
         <form className={'taskform ' +
             (color === "red" ? "red" :
                 color === "yellow" ? "yellow" :
-                    color === "green" ? "green" : "")}
+                    color === "green" ? "green" : "none")}
             onSubmit={handleSubmit}>
             <input className="taskform" type="text"
                 placeholder="Add a task 📝 "

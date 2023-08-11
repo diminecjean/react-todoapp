@@ -3,11 +3,15 @@ import Task from './component/Task';
 import TaskForm from './component/TaskForm';
 import './App.css';
 import { useEffect, useState } from 'react';
-
+// import uuid from 'react-uuid';
+import axios from 'axios';
+import uuid from 'react-uuid';
 
 
 function ToDoApp() {
+
   const [tasks, setTasks] = useState([]);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     if (tasks.length === 0)
@@ -20,30 +24,110 @@ function ToDoApp() {
     setTasks(tasks || []);
   }, [])
 
+  // -------------- API connection ----------------------------------------------
+  useEffect(() => {
+    const fetchData = async () => {
+      await
+        axios.get('http://localhost:8000/apis/v1/')
+          .then(response => {
+            setTasks(response.data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    }
+    fetchData();
+  }, [counter])
+
+  // function postTaskToAPI(task) {
+  //   axios.post('http://localhost:8000/apis/v1/', task)
+  //     .then(response => {
+  //       console.log(response);
+  //       setCounter(counter + 1);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }
+
+  // function deleteTaskFromAPI(taskId) {
+  //   axios.delete(`https://jsonplaceholder.typicode.com/posts/${taskId}`)
+  //     .then(response => {
+  //       console.log(`Deleted post with ID ${taskId}`);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+
+  // -------------- End of API connection ---------------------------------------
+
 
   // function to add a task
   function addTask(name, color) {
-    setTasks(prev => {
-      return [...prev, { name: name, done: false, color: color }];
-    });
+    const newTask = { id: uuid(), name: name, done: false, color: color };
+    setTasks(prev => [...prev, newTask]);
+
+    const postTaskToAPI = async (task) => {
+      await
+        axios.post('http://localhost:8000/apis/v1/', task)
+          .then(response => {
+            console.log(response);
+            setCounter(counter + 1);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    }
+
+    postTaskToAPI(newTask);
   }
 
   // function to remove a task from the array
-  function removeTask(indexToRemove) {
-    setTasks(prev => {
-      return prev.filter((taskObject, index) => index !== indexToRemove);
-    });
+  function removeTask(Task) {
+    // setTasks(prev => {
+    //   return prev.filter((taskObject, index) => index !== indexToRemove);
+    // });
+    const deleteTaskFromAPI = async (taskId) => {
+      await
+        axios.delete(`http://localhost:8000/apis/v1/${taskId}/`)
+          .then(response => {
+            console.log(`Deleted post with ID ${taskId}`);
+            setCounter(counter + 1);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    }
+
+    deleteTaskFromAPI(Task.id);
   }
 
   // function to check a task as done
-  function updateTaskDone(taskIndex, newDone) {
-    setTasks(prev => {
-      const newTasks = [...prev]; // create new array of tasks
-      newTasks[taskIndex].done = newDone; // modifying the done property of newTasks[taskIndex]
-      return newTasks;
-    });
-  }
+  function updateTaskDone(Task, newDone) {
+    // setTasks(prev => {
+    //   const newTasks = [...prev]; // create new array of tasks
+    //   newTasks[taskIndex].done = newDone; // modifying the done property of newTasks[taskIndex]
+    //   return newTasks;
+    // });
 
+    const updateDoneFromAPI = async (taskId, done) => {
+      await
+        axios.patch(`http://localhost:8000/apis/v1/${taskId}/`, {
+          done: done,
+        })
+          .then(response => {
+            console.log(`Update done status of task ${taskId}`);
+            setCounter(counter + 1);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    }
+
+    updateDoneFromAPI(Task.id, newDone);
+
+  }
 
   // function to edit task name
   function renameTask(taskIndex, newName) {
@@ -66,10 +150,11 @@ function ToDoApp() {
           <progress value={numberComplete / numberTotal} />
         </h2>
         <TaskForm onAdd={addTask} />
-        {tasks.map((task, index) =>
-          <Task {...task}
-            onToggle={done => updateTaskDone(index, done)}
-            onTrash={() => removeTask(index)}
+
+        {tasks.map((task, index, id) =>
+          <Task {...task} key={id}
+            onToggle={done => updateTaskDone(task, done)}
+            onTrash={() => removeTask(task)}
             onRename={newName => renameTask(index, newName)}
           />
         )}
