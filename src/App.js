@@ -158,6 +158,7 @@ function ToDoApp() {
   const numberComplete = tasks.filter(t => t.done).length;
   const numberTotal = tasks.length;
 
+
   return (
     <main>
       <div>
@@ -168,8 +169,8 @@ function ToDoApp() {
         </h2>
         <TaskForm onAdd={addTask} />
 
-        {tasks.map((task) =>
-          <Task {...task}
+        {tasks.map((task, id) =>
+          <Task {...task} key={id}
             onToggle={done => updateTaskDone(task, done)}
             onTrash={() => removeTask(task)}
             onRename={newName => renameTask(task, newName)}
